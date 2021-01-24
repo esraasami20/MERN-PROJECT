@@ -31,12 +31,10 @@ const Schema = new mongoose.Schema({
 
   
     });
-
     Schema.pre('save', function preSave(next) {
     this.password = bcrypt.hashSync(this.password, 8);
     next();
 });
-
 Schema.pre('findOneAndUpdate', function preSave(next) {
     if (!this._update.password) {
         return;
@@ -44,7 +42,6 @@ Schema.pre('findOneAndUpdate', function preSave(next) {
     this._update.password = bcrypt.hashSync(this._update.password, 8);
     next();
 });
-
 Schema.methods.validatePassword = function validatePassword(password) {
     return bcrypt.compareSync(password, this.password);
 };

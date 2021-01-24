@@ -28,7 +28,7 @@ app.use((err, req, res, next) => {
     }
     res.status(503).end();
 });
-const { PORT = 3000 } = process.env;
+const { PORT = 4000 } = process.env;
 
 app.listen(PORT, () => {
     console.log('APP is up and ready on:', PORT);

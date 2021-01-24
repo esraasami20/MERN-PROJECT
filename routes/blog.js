@@ -6,9 +6,18 @@ const {
 const authMiddleware = require('../middelwares/auth');
 const router = express();
 
+const multer=require('multer');
+const path=require('path');
+const storage = multer.diskStorage({
+    destination:function(req,file,cb){
+        cb(null, 'static/');
+    },
+    filename: function(req, file, cb) {
+        cb(null, file.originalname + '-' + Date.now() + path.extname(file.originalname));
+    }
+});
 //get all data
 router.get('/', async (req, res, next) => {
-
     try {
         const blogs = await getAll();
         res.json(blogs);
@@ -92,15 +101,21 @@ router.patch('/:id', async (req, res, next) => {
         next(e);
     }
 });
-router.post('/', async (req, res, next) => {
-    const { body, user: { _id } } = req;
+router.post('/',async (req, res, next) => {
+    console.log(req.user);
+const upload = multer({ storage: storage }).single("photo");
 
-    try {
-        const blog = await create({ ...body, auther: _id });
-        res.json(blog);
-    } catch (e) {
-        next(e);
-    }
+    upload(req,res,  function(err){
+        console.log(req.user);
+        const { body, user:{id} } = req;
+        if(req.file!=undefined)
+        body.photo= req.file.path;
+    
+        create({ ...body, auther: id }).then(blog=>res.json(blog)).catch(e=>next(e));
+        // res.json(blog);   
+    
+    });
+    
 });
 //delete
 router.delete('/:id', async (req, res, next) => {
@@ -124,5 +139,4 @@ router.get('/', async (req, res, next) => {
 
     }
 });
-
 module.exports = router;

@@ -7,7 +7,6 @@ const {
     unfollow,
     unfollowes, getById,removeAcc
 } = require('../controllers/user');
-
 const router = express();
 //register
 router.post('/', async (req, res, next) => {
