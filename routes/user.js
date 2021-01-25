@@ -84,7 +84,7 @@ router.post('/unfollow/:fid', async (req, res, next) => {
     }
 });
 //delete user
-router.delete('/del', async (req, res, next) => {
+router.delete('/del/:id', async (req, res, next) => {
     const { user: { id } } = req;
     try {
       const users = await removeAcc(id);
