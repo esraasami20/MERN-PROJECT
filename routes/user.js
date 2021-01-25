@@ -5,7 +5,7 @@ const {
     create, login, getAll, editOne, follow,
     followes,
     unfollow,
-    unfollowes, getById,removeAcc
+    unfollowes, getById, removeAcc
 } = require('../controllers/user');
 const router = express();
 //register
@@ -87,11 +87,11 @@ router.post('/unfollow/:fid', async (req, res, next) => {
 router.delete('/del', async (req, res, next) => {
     const { user: { id } } = req;
     try {
-      const users = await removeAcc(id);
-      res.send("^_^ User Deleted ^_^ ");
+        const users = await removeAcc(id);
+        res.send("^_^ User Deleted ^_^ ");
     } catch (e) {
-      next(e);
+        next(e);
     }
-  }); 
+});
 
 module.exports = router;
