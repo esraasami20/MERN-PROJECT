@@ -37,6 +37,7 @@ router.get('/new', async (req, res, next) => {
 
     }
 });
+
 router.use(authMiddleware);
 //get my blogs
 router.get('/myblogs', async (req, res, next) => {
