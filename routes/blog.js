@@ -1,7 +1,7 @@
 const express = require('express');
 const {
     create, getAll, getById, editOne, deletee, getByTitle, getByTag, getByAuther, getNew, gets, getmyFblog,
-    searchBlog,deleteAll
+    searchBlog,deleteAll,pushComment
 } = require('../controllers/blog');
 const authMiddleware = require('../middelwares/auth');
 const router = express();
@@ -16,16 +16,15 @@ const storage = multer.diskStorage({
         cb(null, file.originalname + '-' + Date.now() + path.extname(file.originalname));
     }
 });
+
 //get newly blogs
 router.get('/new', async (req, res, next) => {
-
     try {
         const blog = await getNew();
         res.json(blog);
 
     } catch (e) {
         next(e);
-
     }
 });
 
@@ -37,6 +36,18 @@ router.get('/myblogs', async (req, res, next) => {
         const blog = await gets({ auther: id });
         res.json(blog);
     } catch (e) {
+        
+        next(e);
+    }
+});
+router.patch('/addComment', async (req, res, next) => {
+    const { body:{id, Comment},user:{username} } = req;
+    Comment.commenter = username;
+    try {
+        const user = await pushComment({ id, Comment});
+        res.json(user);
+    } catch (e) {
+        console.log(e)
         next(e);
     }
 });
@@ -79,6 +90,8 @@ router.get('/search/:searched', async (req, res, next)=>{
         next(e);
     }
 });
+//comment
+
 
 //get data bt title
 // router.get('/title/:title', async (req, res, next) => {

@@ -11,7 +11,14 @@ const deleteAll =(username)=>Blog.deleteMany({username:username})
 // const getByTag = ({ tags }) => Blog.find({ tags }).exec();
 const getByAuther = ({ username }) => Blog.find({ username }).exec();
 const getNew = (query) => Blog.find(query).sort([['createdAT', -1]]).exec();
-
+const pushComment = ({ id, Comment })=>Blog.findByIdAndUpdate(
+    id,
+    {
+                $push: {
+                    comments: Comment,
+                }
+            }
+    , { new: true }).exec();
 const getmyFblog = (following) =>
     Blog.find({ username: { $in: following } });
 
@@ -39,7 +46,7 @@ module.exports = {
     // getByTitle,
     // getByTag,
     getByAuther,
-    getNew,
+    getNew,pushComment,
     gets,deleteAll,
     getmyFblog,
     searchBlog

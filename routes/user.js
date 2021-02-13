@@ -2,16 +2,15 @@ const express = require('express');
 const auth = require('../middelwares/auth');
 
 const {
-<<<<<<< HEAD
+// <<<<<<< HEAD
     create, login, getAll, editOne,
     pushfollowID, unfollowID, searchUser,
     unfollowes, getById, removeAcc
-=======
-    create, login, getAll, editOne, follow,
-    followes,
-    unfollow,
-    unfollowes, getById,removeAcc
->>>>>>> parent of ac3cc7b... MERN PROJECT
+    // create, login, getAll, editOne, follow,
+    // followes,
+    // unfollow,,pushComment
+    // unfollowes, getById,removeAcc
+// >>>>>>> parent of ac3cc7b... MERN PROJECT
 } = require('../controllers/user');
 const router = express();
 const multer = require('multer');
@@ -45,7 +44,6 @@ router.post('/', async (req, res, next) => {
     //     next(e);
     // }
 });
-
 //login
 router.post('/login', async (req, res, next) => {
     const { body } = req;
@@ -167,13 +165,13 @@ router.patch('/edit', async (req, res, next) => {
 router.delete('/del', async (req, res, next) => {
     const { user: { id } } = req;
     try {
-<<<<<<< HEAD
+// <<<<<<< HEAD
         const users = await removeAcc(id);
         res.json({ 'status': 'deleted' })
-=======
-      const users = await removeAcc(id);
-      res.send("^_^ User Deleted ^_^ ");
->>>>>>> parent of ac3cc7b... MERN PROJECT
+// =======
+//       const users = await removeAcc(id);
+//       res.send("^_^ User Deleted ^_^ ");
+// >>>>>>> parent of ac3cc7b... MERN PROJECT
     } catch (e) {
       next(e);
     }

@@ -5,7 +5,7 @@ const { promisify } = require('util');
 const asyncSign = promisify(jwt.sign);
 
 const User = require('../models/user');
-
+const Blog = require('../models/blog');
 const create = (user) => User.create(user);
 
 //login
@@ -103,7 +103,7 @@ module.exports = {
     // follow,
     // followes,
     // unfollow,
-    // unfollowes,
+    // unfollowes,pushComment,
     getById,
     removeAcc,
     pushfollowID,
