@@ -12,14 +12,35 @@ const Schema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    following: [{ 
-        type:mongoose.Schema.ObjectId,
-         ref: 'User' 
+    Fname: {
+        type: String,
+        maxLength: 160,
+        required: true,
+    },
+    Lname: {
+        type: String,
+        maxLength: 160,
+        required: true,
+    },
+    email: {
+        type: String,
+        required: true,
+    },
+    photo: {
+        type:String,
+        default:"static\\17458029_136875910174428_2203645482173159046_n.jpg-1612814517314.jpg"
+        // ../static/0.jpeg-1612824564179.jpeg
+    },
+    dob: Date,
+    following: [{
+        type: String
+        // ref: 'User'
     }],
-    followers: [{ 
-        type:mongoose.Schema.ObjectId,
-         ref: 'User'
-     }],
+    followers: [{
+        type:String 
+        // ref: 'User'
+    }],
+    // mongoose.Schema.Types.ObjectId
 },
     {
         toJSON: {
@@ -29,15 +50,15 @@ const Schema = new mongoose.Schema({
             },
         },
 
-  
+
     });
-    Schema.pre('save', function preSave(next) {
+Schema.pre('save', function preSave(next) {
     this.password = bcrypt.hashSync(this.password, 8);
     next();
 });
 Schema.pre('findOneAndUpdate', function preSave(next) {
     if (!this._update.password) {
-        return;
+        next();
     }
     this._update.password = bcrypt.hashSync(this._update.password, 8);
     next();

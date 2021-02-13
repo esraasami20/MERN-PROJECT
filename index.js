@@ -2,14 +2,17 @@ const express = require('express');
 const mongoose = require('mongoose');
 const blogrout = require('./routes/blog');
 const userrout = require('./routes/user');
+const cors = require('cors');
 
 const app = express();
 
-const { MONGODB_URI } = process.env;
-mongoose.connect(MONGODB_URI,{ useUnifiedTopology: true } )
-// mongoose.connect('mongodb://localhost:27017/blog', { useUnifiedTopology: true });
+// const { MONGODB_URI } = process.env;
+// mongoose.connect(MONGODB_URI, { useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost:27017/blog', { useUnifiedTopology: true });
 
 app.use(express.json());
+app.use(cors());
+app.use('/static',express.static('static'));
 app.use('/Blog', blogrout);
 app.use('/User', userrout);
 
@@ -30,7 +33,7 @@ app.use((err, req, res, next) => {
     }
     res.status(503).end();
 });
-const { PORT = 4000 } = process.env;
+const { PORT = 3000 } = process.env;
 
 app.listen(PORT, () => {
     console.log('APP is up and ready on:', PORT);

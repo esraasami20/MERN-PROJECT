@@ -1,7 +1,7 @@
 const express = require('express');
 const {
-    create, getAll, getById, editOne, deletee, getByTitle, getByTag, getByAuther, getNew, gets
-
+    create, getAll, getById, editOne, deletee, getByTitle, getByTag, getByAuther, getNew, gets, getmyFblog,
+    searchBlog,deleteAll
 } = require('../controllers/blog');
 const authMiddleware = require('../middelwares/auth');
 const router = express();
@@ -36,10 +36,19 @@ router.get('/myblogs', async (req, res, next) => {
     try {
         const blog = await gets({ auther: id });
         res.json(blog);
-
     } catch (e) {
         next(e);
-
+    }
+});
+router.get('/home', async (req, res, next) => {
+    const { user: { following } } = req;
+    console.log(following)
+    try {
+        const blogs = await getmyFblog(following);
+        res.json(blogs);
+        console.log(blogs)
+    } catch (e) {
+        next(e);
     }
 });
 //get all data
@@ -61,31 +70,44 @@ router.get('/:id', async (req, res, next) => {
         next(e);
     }
 });
+router.get('/search/:searched', async (req, res, next)=>{
+    const { params: { searched } } = req;
+    try {
+        const results = await searchBlog(searched);
+        res.json(results);
+    } catch (e) {
+        next(e);
+    }
+});
+
 //get data bt title
-router.get('/title/:title', async (req, res, next) => {
-    const { params: { title } } = req;
-    try {
-        const blogs = await getByTitle({ title });
-        res.json(blogs);
-    } catch (e) {
-        next(e);
-    }
-});
-//get by auther
-router.get('/auther/:auther', async (req, res, next) => {
-    const { params: { auther } } = req;
-    try {
-        const blogs = await getByAuther({ auther });
-        res.json(blogs);
-    } catch (e) {
-        next(e);
-    }
-});
+// router.get('/title/:title', async (req, res, next) => {
+//     const { params: { title } } = req;
+//     try {
+//         const blogs = await getByTitle({ title });
+//         res.json(blogs);
+//     } catch (e) {
+//         next(e);
+//     }
+// });
+
+
 //get data by tag
-router.get('/tags/:tags', async (req, res, next) => {
-    const { params: { tags } } = req;
+// router.get('/tags/:tags', async (req, res, next) => {
+//     const { params: { tags } } = req;
+//     try {
+//         const blogs = await getByTag({ tags });
+//         res.json(blogs);
+//     } catch (e) {
+//         next(e);
+//     }
+// });
+
+//get by auther
+router.get('/auther/:username', async (req, res, next) => {
+    const { params: { username } } = req;
     try {
-        const blogs = await getByTag({ tags });
+        const blogs = await getByAuther({ username });
         res.json(blogs);
     } catch (e) {
         next(e);
@@ -94,7 +116,6 @@ router.get('/tags/:tags', async (req, res, next) => {
 //edit data
 router.patch('/:id', async (req, res, next) => {
     const { params: { id }, body } = req;
-
     try {
         const blogs = await editOne(id, body, { new: true });
         res.json(blogs);
@@ -108,22 +129,32 @@ router.post('/', async (req, res, next) => {
 
     upload(req, res, function (err) {
         console.log(req.user);
-        const { body, user: { id } } = req;
+        const { body, user: { id, username } } = req;
         if (req.file != undefined)
             body.photo = req.file.path;
-
-        create({ ...body, auther: id }).then(blog => res.json(blog)).catch(e => next(e));
-
+        create({ ...body, username: username, auther: id }).then(blog => res.json(blog)).catch(e => next(e));
     });
-
 });
+//delete all user blogs
+router.delete('/delete', async (req, res, next) => {
+    const { user: { username } } = req;
+    try {
+        const blogs = await deleteAll(username);
+        res.json(blogs);
+    } catch (e) {
+        console.log(e)
+        next(e);
+    }
+});
+
 //delete
 router.delete('/:id', async (req, res, next) => {
     const { params: { id } } = req;
     try {
         const blogs = await deletee(id);
-        res.send("^-^ Object Deleted ^-^");
+        res.json(blogs);
     } catch (e) {
+        console.log(e)
         next(e);
     }
 });

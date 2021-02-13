@@ -17,11 +17,25 @@ const blogschema = new Schema({
         default: new Date()
     },
     updateAt: Date,
-    photo: String,
+    photo: {
+        type:String,
+        // default:"static\\FB_IMG_1585154892010.jpg-1612892452861.jpg"
+        // ../static/0.jpeg-1612824564179.jpeg
+    },
     auther: {
-        type:Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'User'
     },
+    username: {
+        type: String,
+        maxLength: 256,
+        required: true
+    },
+    comments: [{
+        body: String,
+        commenter: String
+    }],
+
 
 });
 const blogmodel = mongoose.model('blog', blogschema);
