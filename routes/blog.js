@@ -41,8 +41,9 @@ router.get('/myblogs', async (req, res, next) => {
     }
 });
 router.patch('/addComment', async (req, res, next) => {
-    const { body:{id, Comment},user:{username} } = req;
+    const { body:{id, Comment},user:{Fname,Lname,username} } = req;
     Comment.commenter = username;
+    Comment.commenterName=Fname+" "+Lname;
     try {
         const user = await pushComment({ id, Comment});
         res.json(user);
@@ -129,8 +130,9 @@ router.get('/auther/:username', async (req, res, next) => {
 //edit data
 router.patch('/:id', async (req, res, next) => {
     const { params: { id }, body } = req;
+    const update=Date.now();
     try {
-        const blogs = await editOne(id, body, { new: true });
+        const blogs = await editOne(id, {...body,updateAt:update}, { new: true });
         res.json(blogs);
     } catch (e) {
         next(e);
@@ -142,10 +144,10 @@ router.post('/', async (req, res, next) => {
 
     upload(req, res, function (err) {
         console.log(req.user);
-        const { body, user: { id, username } } = req;
+        const { body, user: { id, Fname, Lname,username} } = req;
         if (req.file != undefined)
             body.photo = req.file.path;
-        create({ ...body, username: username, auther: id }).then(blog => res.json(blog)).catch(e => next(e));
+        create({ ...body, name: Fname+" "+Lname, auther: id,username:username }).then(blog => res.json(blog)).catch(e => next(e));
     });
 });
 //delete all user blogs
