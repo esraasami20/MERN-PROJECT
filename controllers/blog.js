@@ -18,9 +18,9 @@ const pushComment = ({ id, Comment })=>Blog.findByIdAndUpdate(
                     comments: Comment,
                 }
             }
-    , { new: true }).exec();
+, { new: true }).exec();
 const getmyFblog = (following) =>
-    Blog.find({ username: { $in: following } });
+    Blog.find({ username: { $in: following } }).sort({createdAt:'desc'});
 
 const searchBlog = async (searched) => {
     if (!searched) {// return blogs of user who he is following

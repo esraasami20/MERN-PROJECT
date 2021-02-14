@@ -31,8 +31,18 @@ const blogschema = new Schema({
         maxLength: 256,
         required: true
     },
+    name: {
+        type: String,
+        maxLength: 256,
+        required: true
+    },
     comments: [{
         body: String,
+        dop: {
+            type: Date,
+            default: new Date()
+        },
+        commenterName:String,
         commenter: String
     }],
 
