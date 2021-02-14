@@ -117,14 +117,27 @@ router.get('/unfollow/:fusername', async (req, res, next) => {
 //   *****************
 // edit it's own data /Account/edit 
 router.patch('/edit', async (req, res, next) => {
+    const upload = multer({ storage: storage }).single("photo");
     const { body, user: { id } } = req;
-    try {
+
+    /* try {
         const user = await editOne({ id, body });
         res.json(user);
     } catch (e) {
         next(e);
-    }
+    } */
+     upload(req, res, function (err) {
+        console.log(req.user);
+        const { body } = req;
+        if (req.file != undefined)
+            body.photo = req.file.path;
+
+        editOne(id, {...body} ).then(user => res.json(user)).catch(e => next(e));
+
+    });
+    
 });
+
 // const { body } = req;
 // console.log(body);
 // upload(req, res, function (err) {

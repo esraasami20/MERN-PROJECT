@@ -71,7 +71,7 @@ const searchUser = async(searched) => {
 };
 
 const getAll = () => User.find({}).exec();
-const editOne = ({ id, body }) => User.findByIdAndUpdate(id, body, { new: true }).exec();
+const editOne = (id, body) => User.findByIdAndUpdate(id, body, { new: true }).exec();
 
 // const editOne = (id, data) => User.findByIdAndUpdate(id, data, { new: true }).exec();
 const getById = (username) => User.findOne({username:username}).exec();
