@@ -6,18 +6,18 @@ const gets = (query) => Blog.find(query).exec();
 const getById = (id) => Blog.findById(id).exec();
 const editOne = (id, body) => Blog.findByIdAndUpdate(id, body, { new: true }).exec();
 const deletee = (id) => Blog.findByIdAndDelete(id).exec();
-const deleteAll =(username)=>Blog.deleteMany({username:username})
+const deleteAll = (username) => Blog.deleteMany({ username: username })
 // const getByTitle = ({ title }) => Blog.find({ title }).exec();
 // const getByTag = ({ tags }) => Blog.find({ tags }).exec();
 const getByAuther = ({ username }) => Blog.find({ username }).exec();
 const getNew = (query) => Blog.find(query).sort([['createdAT', -1]]).exec();
-const pushComment = ({ id, Comment })=>Blog.findByIdAndUpdate(
+const pushComment = ({ id, Comment }) => Blog.findByIdAndUpdate(
     id,
     {
-                $push: {
-                    comments: Comment,
-                }
-            }
+        $push: {
+            comments: Comment,
+        }
+    }
     , { new: true }).exec();
 const getmyFblog = (following) =>
     Blog.find({ username: { $in: following } });
@@ -46,8 +46,8 @@ module.exports = {
     // getByTitle,
     // getByTag,
     getByAuther,
-    getNew,pushComment,
-    gets,deleteAll,
+    getNew, pushComment,
+    gets, deleteAll,
     getmyFblog,
     searchBlog
 };
