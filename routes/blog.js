@@ -147,7 +147,7 @@ router.post('/', async (req, res, next) => {
         const { body, user: { id, Fname, Lname,username} } = req;
         if (req.file != undefined)
             body.photo = req.file.path;
-        create({ ...body, name: Fname+" "+Lname, auther: id,username:username }).then(blog => res.json(blog)).catch(e => next(e));
+        create({ ...body, name: Fname+" "+Lname, auther: id,username:username}).then(blog => res.json(blog)).catch(e => next(e));
     });
 });
 //delete all user blogs
