@@ -96,7 +96,7 @@ router.get('/search/:searched', async (req, res, next) => {
 
 // *************************
 router.get('/follow/:fusername', async (req, res, next) => {
-    const { user: { username }, params: { fusername } } = req;
+    const { user: { username}, params: { fusername } } = req;
     try {
         const userfollowID = await pushfollowID(username, fusername);
         res.json(userfollowID);
