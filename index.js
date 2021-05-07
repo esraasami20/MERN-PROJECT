@@ -8,18 +8,18 @@ const app = express();
 
 // const { MONGODB_URI } = process.env;
 // mongoose.connect(MONGODB_URI, { useUnifiedTopology: true })
-//mongoose.connect('mongodb://localhost:27017/blog', { useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/blog', { useUnifiedTopology: true });
 
-const url =
-  "mongodb+srv://nouraosama:dwni686737@cluster0.lz0az.mongodb.net/NodeUsersBlogs?retryWrites=true&w=majority";
-mongoose
-  .connect(url, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-  })
-  .then(() => console.log("Database Connected Successfully"))
-  .catch((err) => console.log(err));
+// const url =
+//   "mongodb+srv://nouraosama:dwni686737@cluster0.lz0az.mongodb.net/NodeUsersBlogs?retryWrites=true&w=majority";
+// mongoose
+//   .connect(url, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//     useFindAndModify: false,
+//   })
+  // .then(() => console.log("Database Connected Successfully"))
+  // .catch((err) => console.log(err));
 
 app.use(express.json());
 app.use(cors());
